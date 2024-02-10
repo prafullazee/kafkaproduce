@@ -42,7 +42,7 @@ public class KafkaMessagePublisherImpl implements KafkaMessagePublisher {
 
   @Override
   public void sendBulkMessageToTopic(String message) {
-    CompletableFuture<SendResult<String, Object>> future = template.send("bulk-message-test-topic", message);
+    CompletableFuture<SendResult<String, Object>> future = template.send("bulk-message-topic", message);
 
     future.whenComplete((result, ex)-> {
       if (Objects.nonNull(ex)) {
