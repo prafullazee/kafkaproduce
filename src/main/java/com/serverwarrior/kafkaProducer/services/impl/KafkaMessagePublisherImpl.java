@@ -39,4 +39,25 @@ public class KafkaMessagePublisherImpl implements KafkaMessagePublisher {
       }
     });
   }
+
+  @Override
+  public void sendBulkMessageToTopic(String message) {
+    CompletableFuture<SendResult<String, Object>> future = template.send("bulk-message-test-topic", message);
+
+    future.whenComplete((result, ex)-> {
+      if (Objects.nonNull(ex)) {
+        log.error("Error while sending message: " + ex.getMessage());
+      }
+
+      if (Objects.nonNull(result.getRecordMetadata())) {
+        RecordMetadata metaData = result.getRecordMetadata();
+        if (Objects.nonNull(metaData.topic())) {
+          log.info("Message offset is: " + metaData.topic());
+        }
+        if (metaData.hasOffset()) {
+          log.info("Message offset is: " + metaData.offset());
+        }
+      }
+    });
+  }
 }

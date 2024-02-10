@@ -20,4 +20,12 @@ public class EventController
     kafkaMessagePublisher.sendMessageToTopic(message);
     return ResponseEntity.ok("Message published successfully.");
   }
+
+  @PostMapping("/publish/bulk")
+  public ResponseEntity<?> publishBulkMessages(@RequestBody String message) {
+    for (int i=0; i<1000000; i++) {
+      kafkaMessagePublisher.sendBulkMessageToTopic(message + i);
+    }
+    return ResponseEntity.ok("Message published successfully.");
+  }
 }
