@@ -8,6 +8,17 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaProducerConfig {
   @Bean
   public NewTopic createTopic() {
-    return new NewTopic("bulk-message-topic", 3, (short) 1);
+    return new NewTopic("customer-message-topic", 3, (short) 1);
+  }
+
+
+  @Bean
+  public NewTopic createCustomerTopic() {
+    return new NewTopic("customer-message-topic", 3, (short) 1);
+  }
+
+  @Bean
+  public NewTopic createPartitionTopic() {
+    return new NewTopic("message-to-partition", 5, (short) 1);
   }
 }

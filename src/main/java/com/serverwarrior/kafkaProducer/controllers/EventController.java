@@ -1,5 +1,6 @@
 package com.serverwarrior.kafkaProducer.controllers;
 
+import com.serverwarrior.kafkaProducer.models.Customer;
 import com.serverwarrior.kafkaProducer.services.KafkaMessagePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,22 @@ public class EventController
 
   @PostMapping("/publish/bulk")
   public ResponseEntity<?> publishBulkMessages(@RequestBody String message) {
-    for (int i=0; i<100000000; i++) {
+    for (int i=0; i<100000; i++) {
       kafkaMessagePublisher.sendBulkMessageToTopic(message + i);
+    }
+    return ResponseEntity.ok("Message published successfully.");
+  }
+
+  @PostMapping("/publish/customer")
+  public ResponseEntity<?> publishMessage(@RequestBody Customer customer) {
+    kafkaMessagePublisher.sendMessageToTopic(customer);
+    return ResponseEntity.ok("Message published successfully.");
+  }
+
+  @PostMapping("/publish/partition")
+  public ResponseEntity<?> publishMessageToPartition(@RequestBody String message) {
+    for (int i=0; i<100000; i++) {
+      kafkaMessagePublisher.sendMessageToPartition(message);
     }
     return ResponseEntity.ok("Message published successfully.");
   }
